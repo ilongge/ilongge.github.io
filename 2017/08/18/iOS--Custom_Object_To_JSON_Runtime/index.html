@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="如何将自定义类的实例化对象转换为JSON数据  我所用的方法是通过Runtime的相关方法，先后两步来实现的。具体往下看：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS实例化对象转换为JSON数据">
+<meta property="og:url" content="http://ilongge.site/2017/08/18/iOS--Custom_Object_To_JSON_Runtime/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="如何将自定义类的实例化对象转换为JSON数据  我所用的方法是通过Runtime的相关方法，先后两步来实现的。具体往下看：">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-08-18T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:12.215Z">
+<meta property="article:author" content="ilongge">
+<meta property="article:tag" content="原创分享">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ilongge.site/2017/08/18/iOS--Custom_Object_To_JSON_Runtime/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>iOS实例化对象转换为JSON数据 | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2017/08/18/iOS--Custom_Object_To_JSON_Runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS实例化对象转换为JSON数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-18 18:00:00" itemprop="dateCreated datePublished" datetime="2017-08-18T18:00:00+08:00">2017-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:12" itemprop="dateModified" datetime="2021-10-15T10:52:12+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="如何将自定义类的实例化对象转换为JSON数据"><a href="#如何将自定义类的实例化对象转换为JSON数据" class="headerlink" title="如何将自定义类的实例化对象转换为JSON数据"></a>如何将自定义类的实例化对象转换为JSON数据</h3><p>  我所用的方法是通过Runtime的相关方法，先后两步来实现的。具体往下看：<br>   <span id="more"></span></p>
+<h4 id="新建一个类命名为《UserClass》"><a href="#新建一个类命名为《UserClass》" class="headerlink" title="新建一个类命名为《UserClass》"></a>新建一个类命名为《UserClass》</h4><ul>
+<li>展示.h文件UserClass.h</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//  UserClass.h</span><br><span class="line">//  MyPickerView</span><br><span class="line">//  Created by LiynXu on 16/3/7.</span><br><span class="line">//  Copyright © 2016年 LiynXu. All rights reserved.</span><br><span class="line"></span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">@interface UserClass : NSObject</span><br><span class="line">@property (nonatomic,strong) NSString *name;</span><br><span class="line">@property (nonatomic,strong) NSString *password;</span><br><span class="line">@property (nonatomic,assign) NSInteger age;</span><br><span class="line">@property (nonatomic,strong) NSString *sex;</span><br><span class="line">- (instancetype)initWithName:(NSString *)name Password:(NSString *)password;</span><br><span class="line">- (NSDictionary *)convertToDictWithObject:(NSObject *)object;//主要使用这个方法得到一个字典</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>由上面的头文件可以看出我所建立的类有4个属性：name，password，age，sex。<br>并且包含一个初始化方法，和对象转字典的方法(了解过Runtime，所以知道了Runtime可以在运行时某个对象的所有属性，以及属性的相关值)</p>
+<h4 id="具体实现方法"><a href="#具体实现方法" class="headerlink" title="具体实现方法"></a>具体实现方法</h4><ul>
+<li>第一步将自定义类的实例化对象转为字典，这一步需要结合Runtime进行，所以我们需要做一个操作就是导入一个头文件</li>
+<li>#import &lt;objc/runtime.h&gt;//当前需要使用使用运行时库</li>
+</ul>
+<p>第二步使用第一部得到的字典转为JSON数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//  UserClass.m</span><br><span class="line">//  MyPickerView</span><br><span class="line">//  Created by LiynXu on 16/3/7.</span><br><span class="line">//  Copyright © 2016年 LiynXu. All rights reserved.</span><br><span class="line"></span><br><span class="line">#import &quot;UserClass.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;//当前需要使用使用运行时库</span><br><span class="line"></span><br><span class="line">@implementation UserClass</span><br><span class="line">-(instancetype)initWithName:(NSString *)name Password:(NSString *)password&#123;</span><br><span class="line">    self= [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        _name = name;</span><br><span class="line">        _password = password;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的主要是一个初始化方法，重要的是下面，下面，下面！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (NSDictionary *)convertToDictWithObject:(NSObject *)object&#123;//获取当前对象的所有属性以及属性的值</span><br><span class="line">    NSMutableDictionary *Dict = [NSMutableDictionary dictionary];</span><br><span class="line">    unsigned int outCount, i;</span><br><span class="line">    objc_property_t *properties = class_copyPropertyList([object class], &amp;outCount);</span><br><span class="line">    //获取所有属性以及属性的值,并且转换为一个字典</span><br><span class="line">    for (i = 0; i&lt;outCount; i++)&#123;</span><br><span class="line">        objc_property_t property = properties[i];</span><br><span class="line">        const char* char_f =property_getName(property);</span><br><span class="line">        NSString *propertyName = [NSString stringWithUTF8String:char_f];</span><br><span class="line">        id propertyValue = [self valueForKey:(NSString *)propertyName];</span><br><span class="line">        if (propertyValue) [Dict setObject:propertyValue forKey:propertyName];</span><br><span class="line">    &#125;</span><br><span class="line">    free(properties);</span><br><span class="line">    return Dict;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>程序入口main.m  包含具体示例代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  main.m</span><br><span class="line">//  JsonCode</span><br><span class="line">//</span><br><span class="line">//  Created by LiynXu on 16/3/7.</span><br><span class="line">//  Copyright © 2016年 LiynXu. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">#import &quot;UserClass.h&quot;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        UserClass *user = [[UserClass alloc] initWithName:@&quot;name&quot; Password:@&quot;password&quot;];</span><br><span class="line">        NSDictionary *codeDict = [user convertToDictWithObject:user];//对象转字典，</span><br><span class="line">        NSLog(@&quot;%@&quot;,codeDict);</span><br><span class="line">        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:codeDict options:NSJSONWritingPrettyPrinted error:nil];//字典转json  code</span><br><span class="line">        NSLog(@&quot;%@&quot;,jsonData);</span><br><span class="line">        NSFileManager *fileManager = [NSFileManager defaultManager];</span><br><span class="line">        NSString *path = [NSString stringWithFormat:@&quot;%@/Document/jsonData.json&quot;,NSHomeDirectory()];</span><br><span class="line">        BOOL res=[fileManager createFileAtPath:path contents:nil attributes:nil];</span><br><span class="line">        if (res) &#123;</span><br><span class="line">            NSLog(@&quot;文件创建成功: %@&quot; ,path);</span><br><span class="line">        &#125;else</span><br><span class="line">            NSLog(@&quot;文件创建失败: %@&quot; ,path);</span><br><span class="line">        NSString *jsonStrong = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]; //json转字符串</span><br><span class="line">        NSLog(@&quot;%@&quot;,jsonStrong);</span><br><span class="line">        NSDictionary *decodeDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil]; //json Decode</span><br><span class="line">        NSLog(@&quot;%@&quot;,decodeDict);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%88%9B%E5%88%86%E4%BA%AB/" rel="tag"># 原创分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/08/18/iOS--Get_iOS_Device_Model/" rel="prev" title="获取iOS设备型号，目前所有iOS设备">
+      <i class="fa fa-chevron-left"></i> 获取iOS设备型号，目前所有iOS设备
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/18/iOS--Custom_Ablum/" rel="next" title="iOS自定义多选相册">
+      iOS自定义多选相册 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BAJSON%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">如何将自定义类的实例化对象转换为JSON数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%91%BD%E5%90%8D%E4%B8%BA%E3%80%8AUserClass%E3%80%8B"><span class="nav-number">1.1.</span> <span class="nav-text">新建一个类命名为《UserClass》</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">具体实现方法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

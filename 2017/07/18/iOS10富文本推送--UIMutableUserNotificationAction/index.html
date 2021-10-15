@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="iOS10富文本推送–UIMutableUserNotificationAction">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS10富文本推送--UIMutableUserNotificationAction">
+<meta property="og:url" content="http://ilongge.site/2017/07/18/iOS10%E5%AF%8C%E6%96%87%E6%9C%AC%E6%8E%A8%E9%80%81--UIMutableUserNotificationAction/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="iOS10富文本推送–UIMutableUserNotificationAction">
+<meta property="og:locale">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-7fefc908b0ad05c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2017-07-18T07:04:14.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:12.015Z">
+<meta property="article:author" content="ilongge">
+<meta property="article:tag" content="原创分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1519926-7fefc908b0ad05c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="canonical" href="http://ilongge.site/2017/07/18/iOS10%E5%AF%8C%E6%96%87%E6%9C%AC%E6%8E%A8%E9%80%81--UIMutableUserNotificationAction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>iOS10富文本推送--UIMutableUserNotificationAction | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2017/07/18/iOS10%E5%AF%8C%E6%96%87%E6%9C%AC%E6%8E%A8%E9%80%81--UIMutableUserNotificationAction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS10富文本推送--UIMutableUserNotificationAction
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-18 15:04:14" itemprop="dateCreated datePublished" datetime="2017-07-18T15:04:14+08:00">2017-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:12" itemprop="dateModified" datetime="2021-10-15T10:52:12+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p> iOS10富文本推送–UIMutableUserNotificationAction</p>
+ <span id="more"></span>
+<h3 id="AppDelagate文件"><a href="#AppDelagate文件" class="headerlink" title="AppDelagate文件"></a>AppDelagate文件</h3><h4 id="添加action"><a href="#添加action" class="headerlink" title="添加action"></a>添加action</h4><p>根据以下ContentExtension Info.plist文件中的配置决定category的设置，两者必须一致<br><img src="http://upload-images.jianshu.io/upload_images/1519926-7fefc908b0ad05c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="ContentExtension Info.plist"></p>
+<p>宏定义采用下列代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//推送相关设置</span><br><span class="line">#define Action_Category_Identifier_Image @&quot;Image_Category&quot; //图片类别标识符</span><br><span class="line">#define Action_Category_Identifier_Audio @&quot;Audio_Category&quot; //音频类别标识符</span><br><span class="line">#define Action_Category_Identifier_Movie @&quot;Movie_Category&quot; //视频类别标识符</span><br><span class="line">#define Action_Identifier_Image_Confirm @&quot;imageConfirmAction&quot;  //图片确认按钮</span><br><span class="line">#define Action_Identifier_Image_Concel  @&quot;imageConcelAction&quot;   //图片取消按钮</span><br><span class="line">#define Action_Identifier_Audio_Confirm @&quot;audioConfirmAction&quot;  //音频确认按钮</span><br><span class="line">#define Action_Identifier_Audio_Concel  @&quot;audioConcelAction&quot;   //音频取消按钮</span><br><span class="line">#define Action_Identifier_Movie_Confirm @&quot;movieConfirmAction&quot;  //视频确认按钮</span><br><span class="line">#define Action_Identifier_Movie_Concel  @&quot;movieConcelAction&quot;   //视频取消按钮</span><br><span class="line">#define Action_Title_Image_Confirm @&quot;查看&quot;  //图片确认按钮标题</span><br><span class="line">#define Action_Title_Image_Concel  @&quot;忽略&quot;  //图片取消按钮标题</span><br><span class="line">#define Action_Title_Audio_Confirm @&quot;查看&quot;  //音频确认按钮标题</span><br><span class="line">#define Action_Title_Audio_Concel  @&quot;忽略&quot;  //音频取消按钮标题</span><br><span class="line">#define Action_Title_Movie_Confirm @&quot;查看&quot;  //视频确认按钮标题</span><br><span class="line">#define Action_Title_Movie_Concel  @&quot;忽略&quot;  //视频取消按钮标题</span><br></pre></td></tr></table></figure>
+
+<p>添加相应类别的aciton，一个类别必须对应一个category，<br>在下面这个方法里面执行,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">//添加相应类别的aciton，一个类别必须对应一个category</span><br><span class="line">- (void)addNotificationAction&#123;</span><br><span class="line">    </span><br><span class="line">    //Image_Category</span><br><span class="line">    UIMutableUserNotificationAction *imageConfirmAction = [self creatNotificationActionIdentifier:Action_Identifier_Image_Confirm</span><br><span class="line">                                                                                            title:Action_Title_Image_Confirm</span><br><span class="line">                                                                                   activationMode:UIUserNotificationActivationModeForeground];</span><br><span class="line">    imageConfirmAction.authenticationRequired = YES;</span><br><span class="line">    imageConfirmAction.destructive = YES;</span><br><span class="line">    </span><br><span class="line">    UIMutableUserNotificationAction *imageConcelAction = [self creatNotificationActionIdentifier:Action_Identifier_Image_Concel</span><br><span class="line">                                                                                           title:Action_Title_Image_Concel</span><br><span class="line">                                                                                  activationMode:UIUserNotificationActivationModeBackground];</span><br><span class="line">    UIMutableUserNotificationCategory *ImageCategory = [self creatNotificationCategoryIdentifier:Action_Category_Identifier_Image</span><br><span class="line">                                                                                      setActions:@[imageConfirmAction,imageConcelAction]</span><br><span class="line">                                                                                      forContext:UIUserNotificationActionContextDefault];</span><br><span class="line">    </span><br><span class="line">    //Audio_Category</span><br><span class="line">    UIMutableUserNotificationAction *audioConfirmAction = [self creatNotificationActionIdentifier:Action_Identifier_Audio_Confirm</span><br><span class="line">                                                                                            title:Action_Title_Audio_Confirm</span><br><span class="line">                                                                                   activationMode:UIUserNotificationActivationModeForeground];</span><br><span class="line">    audioConfirmAction.authenticationRequired = YES;</span><br><span class="line">    audioConfirmAction.destructive = YES;</span><br><span class="line">    </span><br><span class="line">    UIMutableUserNotificationAction *audioConcelAction = [self creatNotificationActionIdentifier:Action_Identifier_Audio_Concel</span><br><span class="line">                                                                                           title:Action_Title_Audio_Concel</span><br><span class="line">                                                                                  activationMode:UIUserNotificationActivationModeBackground];</span><br><span class="line">    UIMutableUserNotificationCategory *audioCategory = [self creatNotificationCategoryIdentifier:Action_Category_Identifier_Audio</span><br><span class="line">                                                                                      setActions:@[audioConfirmAction,audioConcelAction]</span><br><span class="line">                                                                                      forContext:UIUserNotificationActionContextDefault];</span><br><span class="line">    //Movie_Category</span><br><span class="line">    UIMutableUserNotificationAction *movieConfirmAction = [self creatNotificationActionIdentifier:Action_Identifier_Movie_Confirm</span><br><span class="line">                                                                                            title:Action_Title_Movie_Confirm</span><br><span class="line">                                                                                   activationMode:UIUserNotificationActivationModeForeground];</span><br><span class="line">    movieConfirmAction.authenticationRequired = YES;</span><br><span class="line">    movieConfirmAction.destructive = YES;</span><br><span class="line">    </span><br><span class="line">    UIMutableUserNotificationAction *movieConcelAction = [self creatNotificationActionIdentifier:Action_Identifier_Movie_Concel</span><br><span class="line">                                                                                           title:Action_Title_Movie_Concel</span><br><span class="line">                                                                                  activationMode:UIUserNotificationActivationModeBackground];</span><br><span class="line">    UIMutableUserNotificationCategory *movieCategory = [self creatNotificationCategoryIdentifier:Action_Category_Identifier_Movie</span><br><span class="line">                                                                                      setActions:@[movieConfirmAction,movieConcelAction]</span><br><span class="line">                                                                                      forContext:UIUserNotificationActionContextDefault];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSSet *categories = [NSSet setWithObjects:ImageCategory,audioCategory,movieCategory,nil];</span><br><span class="line">    UIUserNotificationType types = (UIUserNotificationTypeAlert|</span><br><span class="line">                                    UIUserNotificationTypeSound|</span><br><span class="line">                                    UIUserNotificationTypeBadge);</span><br><span class="line">    </span><br><span class="line">    UIUserNotificationSettings *settings;</span><br><span class="line">    settings = [UIUserNotificationSettings settingsForTypes:types</span><br><span class="line">                                                 categories:categories];</span><br><span class="line">    </span><br><span class="line">    [[UIApplication sharedApplication] registerUserNotificationSettings:settings]; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>创建一个category</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建一个category</span><br><span class="line">- (UIMutableUserNotificationCategory*)creatNotificationCategoryIdentifier:(NSString *)identifier</span><br><span class="line">                                                               setActions:(nullable NSArray&lt;UIUserNotificationAction *&gt; *)actions</span><br><span class="line">                                                               forContext:(UIUserNotificationActionContext)context</span><br><span class="line">&#123;</span><br><span class="line">    UIMutableUserNotificationCategory *category = [[UIMutableUserNotificationCategory alloc] init];</span><br><span class="line">    category.identifier = identifier;//这组动作的唯一标示</span><br><span class="line">    [category setActions:actions forContext:context];</span><br><span class="line">    return category;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建一个action</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//创建一个action</span><br><span class="line">-(UIMutableUserNotificationAction *)creatNotificationActionIdentifier:(NSString *)identifier</span><br><span class="line">                                                                title:(NSString *)title</span><br><span class="line">                                                       activationMode:(UIUserNotificationActivationMode)activationMode</span><br><span class="line">&#123;</span><br><span class="line">    UIMutableUserNotificationAction *action = [[UIMutableUserNotificationAction alloc] init];  //第二按钮</span><br><span class="line">    action.identifier = identifier;</span><br><span class="line">    action.title = title;</span><br><span class="line">    action.activationMode = activationMode;</span><br><span class="line">    return action;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%88%9B%E5%88%86%E4%BA%AB/" rel="tag"># 原创分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/18/iOS10%E5%AF%8C%E6%96%87%E6%9C%AC%E6%8E%A8%E9%80%81--NotificationServiceExtension/" rel="prev" title="iOS10富文本推送--NotificationServiceExtension">
+      <i class="fa fa-chevron-left"></i> iOS10富文本推送--NotificationServiceExtension
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/09/Release_BaiduNetDisk_Downloading_Speed_Limit/" rel="next" title="解除百度网盘下载限速">
+      解除百度网盘下载限速 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#AppDelagate%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">AppDelagate文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0action"><span class="nav-number">1.1.</span> <span class="nav-text">添加action</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

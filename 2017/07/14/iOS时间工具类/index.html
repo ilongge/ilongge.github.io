@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="iOS时间工具类工作之余写的一个关于Unix时间的工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS时间工具类">
+<meta property="og:url" content="http://ilongge.site/2017/07/14/iOS%E6%97%B6%E9%97%B4%E5%B7%A5%E5%85%B7%E7%B1%BB/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="iOS时间工具类工作之余写的一个关于Unix时间的工具">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-07-14T09:48:30.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:10.165Z">
+<meta property="article:author" content="ilongge">
+<meta property="article:tag" content="原创分享">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ilongge.site/2017/07/14/iOS%E6%97%B6%E9%97%B4%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>iOS时间工具类 | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2017/07/14/iOS%E6%97%B6%E9%97%B4%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS时间工具类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-14 17:48:30" itemprop="dateCreated datePublished" datetime="2017-07-14T17:48:30+08:00">2017-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:10" itemprop="dateModified" datetime="2021-10-15T10:52:10+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="iOS时间工具类"><a href="#iOS时间工具类" class="headerlink" title="iOS时间工具类"></a>iOS时间工具类</h3><p>工作之余写的一个关于Unix时间的工具</p>
+ <span id="more"></span>
+<figure class="highlight plaintext"><figcaption><span><Foundation/Foundation.h></span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@interface UnixTime : NSObject</span><br><span class="line">@property (nonatomic,assign) double    unixTimeInterval;//GMT时间戳 微秒级</span><br><span class="line">@property (nonatomic,strong) NSDate   *unixDate;//GMT时间 2016-01-04 8:55:46 +0000</span><br><span class="line">@property (nonatomic,strong) NSString *LocalTimeZone;//本地时区 GMT-12  GMT+12</span><br><span class="line">@property (nonatomic,assign) NSInteger timeOffset;//时间偏移量 </span><br><span class="line">@property (nonatomic,assign) double    unixTimestamp;//GMT+0 毫秒</span><br><span class="line">@property (nonatomic,assign) NSInteger unixZeroTimestamp;//当天零点 GMT+0 秒</span><br><span class="line">+ (UnixTime *)shareUnixTime;//单例 类方法</span><br><span class="line">- (void)getUnixTimestampAtNow;//Unix时间戳  若要获取某天的零时刻  必须先执行找个方法</span><br><span class="line">- (void)getSystemTimeZone;//本地时区</span><br><span class="line">- (NSString *)getTimeStringWithTime:(double)time;//字符串输出时间 设置日期格式带毫秒的 2016-01-04 16:55:46</span><br><span class="line">- (NSInteger)getUnixTimeWithDay:(NSInteger)day;// 某天的零时Unix时间戳</span><br><span class="line">- (NSInteger)getUnixTimeWithDay:(NSInteger)day AndClock:(NSInteger)clock; // 某天的特定时刻Unix时间戳</span><br><span class="line">- (NSInteger)gettimestampWithDateFormatString:(NSString *)dateFormatString;</span><br><span class="line">- (NSString *)formatTimeWithTime:(NSNumber *)time;//根据传入时间数值 返回hh:mm:ss格式的时间  这个是表示时间点的</span><br><span class="line">- (NSString *)formatHMWithTime:(NSNumber *)time;//根据传入时间数值 返回hh:mm格式的时间 这个时用来表示时间长短的</span><br><span class="line">- (NSString *)getTravelTimeWithStartTime:(NSNumber *)startTime andEndTime:(NSNumber *)endTime;//根据传入时间数值返回时间差值分钟 这个时用来表示时间长短的</span><br><span class="line">- (NSString *)getDayHourMinWithTimeStamp:(NSNumber *)time;</span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>UnixTime.m文件<br>包含方法的具体实现，用法都在.h文件里写了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &quot;UnixTime.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation UnixTime</span><br><span class="line"></span><br><span class="line">+ (UnixTime *)shareUnixTime&#123;</span><br><span class="line">    static UnixTime *unixTime = nil;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        unixTime = [[UnixTime alloc]init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return unixTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)getUnixTimestampAtNow&#123;</span><br><span class="line">    self.unixDate = [NSDate date];</span><br><span class="line">    NSLog(@&quot;GMT %@&quot;,self.unixDate);</span><br><span class="line">    NSTimeInterval time=[self.unixDate timeIntervalSince1970];</span><br><span class="line">    self.unixTimeInterval =time;</span><br><span class="line">    NSString *timeIntervalString = [NSString stringWithFormat:@&quot;%f&quot;,self.unixTimeInterval];</span><br><span class="line">    NSLog(@&quot;GMTTimeInterval    %@&quot;,timeIntervalString);</span><br><span class="line">    NSString *micSecondString = [timeIntervalString substringWithRange:NSMakeRange(timeIntervalString.length-6, 3)];</span><br><span class="line">    //NSLog(@&quot;micSec %@&quot;,micSecondString);</span><br><span class="line">    NSInteger micSec = [micSecondString integerValue];</span><br><span class="line">    self.unixTimestamp = (NSInteger)time+micSec/1000.000;</span><br><span class="line">    NSLog(@&quot;GMTTimestamp       %ld&quot;,(long)self.unixTimestamp);</span><br><span class="line">    [self getUnixZeroTimestamp];</span><br><span class="line">    [self getSystemTimeZone];</span><br><span class="line">    [self getTimeOffset];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)getSystemTimeZone&#123;</span><br><span class="line">    NSTimeZone *timezone = [NSTimeZone systemTimeZone];</span><br><span class="line">    //NSLog(@&quot;timeZone%@&quot;,timezone);</span><br><span class="line">    NSString *timeAbbreviation = timezone.abbreviation;</span><br><span class="line">    self.LocalTimeZone = timeAbbreviation;</span><br><span class="line">    if ([timeAbbreviation isEqualToString:@&quot;GMT&quot;]) &#123;</span><br><span class="line">        self.LocalTimeZone = @&quot;GMT+0&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">   // NSLog(@&quot;TimeZone.abb: %@&quot;,self.LocalTimeZone);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)getTimeOffset&#123;</span><br><span class="line">    NSString *str1 = [self.LocalTimeZone substringWithRange:NSMakeRange(3, 1)];</span><br><span class="line">    NSString *str2 = [self.LocalTimeZone substringWithRange:NSMakeRange(4, self.LocalTimeZone.length-4)];</span><br><span class="line">    NSInteger timeZoneOffset = [str2 integerValue];</span><br><span class="line">    if ([str1 isEqualToString:@&quot;+&quot;]) &#123;</span><br><span class="line">        self.timeOffset = timeZoneOffset*3600;</span><br><span class="line">    &#125;else if ([str1 isEqualToString:@&quot;-&quot;])&#123;</span><br><span class="line">        self.timeOffset = -timeZoneOffset*3600;</span><br><span class="line">    &#125;</span><br><span class="line">    //NSLog(@&quot;timeOffSet %ld&quot;,(long)self.timeOffset);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)getUnixZeroTimestamp&#123;</span><br><span class="line">    self.unixZeroTimestamp =  (NSInteger)(self.unixTimestamp/86400)*86400;</span><br><span class="line">    NSInteger days =  self.unixZeroTimestamp/86400 ;</span><br><span class="line">    NSLog(@&quot;GMTZeroTimestamp   %ld&quot;,self.unixZeroTimestamp);</span><br><span class="line">    NSLog(@&quot;days %ld&quot;,days);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)getTimeStringWithTime:(double)time&#123;</span><br><span class="line">    NSDate *date = [NSDate dateWithTimeIntervalSince1970:time];</span><br><span class="line">    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];</span><br><span class="line">    [dateFormat setDateFormat:@&quot;YYYY-MM-dd HH:mm:ss&quot;];</span><br><span class="line">    // 设置日期格式带秒的 2016-01-04 16:55:46</span><br><span class="line">    //NSLog(@&quot;date %@&quot;,date);</span><br><span class="line">    NSString *timeString = [dateFormat stringFromDate:date];</span><br><span class="line">    //NSLog(@&quot;time %@&quot;,timeString);</span><br><span class="line">    return timeString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSInteger)gettimestampWithDateFormatString:(NSString *)dateFormatString&#123;</span><br><span class="line">    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];</span><br><span class="line">    [dateFormat setDateFormat:@&quot;YYYY-MM-dd HH:mm:ss&quot;];</span><br><span class="line">    NSDate *date = [dateFormat dateFromString:dateFormatString];</span><br><span class="line">    NSInteger time= [date timeIntervalSince1970];</span><br><span class="line">    NSLog(@&quot;time %ld&quot;,time);</span><br><span class="line">    return time;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSInteger)getUnixTimeWithDay:(NSInteger)day&#123;</span><br><span class="line">    NSInteger unixTime = self.unixZeroTimestamp-(day-1)*86400-self.timeOffset;</span><br><span class="line">    NSLog(@&quot;unixTime   %ld&quot;,unixTime);</span><br><span class="line">    NSLog(@&quot;%@&quot;,[self getTimeStringWithTime:unixTime]);</span><br><span class="line">    return unixTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSInteger)getUnixTimeWithDay:(NSInteger)day AndClock:(NSInteger)clock&#123;//特定时刻的Unix时间戳</span><br><span class="line">    </span><br><span class="line">    if (clock&lt;0||clock&gt;24) &#123;//为了避免传入数据不正确 进行换算 增强可靠性</span><br><span class="line">        clock = clock%24;</span><br><span class="line">        if (clock&lt;0) &#123;</span><br><span class="line">            clock=clock+24;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            clock=clock;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        clock=clock;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSInteger unixTime = self.unixZeroTimestamp-(day-1)*86400+3600*clock;//-self.timeOffset;</span><br><span class="line">    //NSLog(@&quot;unixTime   %ld&quot;,unixTime);</span><br><span class="line">    return unixTime;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)formatTimeWithTime:(NSNumber *)time&#123;</span><br><span class="line">    float _time_2 = [time floatValue];</span><br><span class="line">    NSInteger _time_1 = [time integerValue];</span><br><span class="line">    NSInteger sec = (NSInteger)((_time_2-_time_1)*60);</span><br><span class="line">    NSInteger hour;</span><br><span class="line">    NSInteger min;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    if (_time_1&gt;=1 &amp;&amp; _time_1&lt;60) &#123;</span><br><span class="line">         min = _time_1%60;</span><br><span class="line">        return [NSString stringWithFormat:@&quot;%ld:%.2ld&quot;,min,sec];</span><br><span class="line">    &#125;</span><br><span class="line">    if (_time_1&gt;=60) &#123;</span><br><span class="line">        hour = _time_1/60;</span><br><span class="line">        min = _time_1%60;</span><br><span class="line">        return [NSString stringWithFormat:@&quot;%ld:%.2ld:%.2ld&quot;,hour,min,sec];</span><br><span class="line">    &#125;</span><br><span class="line">    return [NSString stringWithFormat:@&quot;0:%.2ld&quot;,sec];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)formatHMWithTime:(NSNumber *)time&#123;</span><br><span class="line">    UnixTime *unixtime = [UnixTime shareUnixTime];</span><br><span class="line">    NSString *string = [unixtime getTimeStringWithTime:[time integerValue]];</span><br><span class="line">    NSArray *firArray = [string componentsSeparatedByString:@&quot; &quot;];</span><br><span class="line">    NSString *firstring = firArray[1];</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *secArray = [NSMutableArray arrayWithArray:[firstring componentsSeparatedByString:@&quot;:&quot;]];</span><br><span class="line">    [secArray removeLastObject];</span><br><span class="line">    </span><br><span class="line">    return [secArray componentsJoinedByString:@&quot;:&quot;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)getTravelTimeWithStartTime:(NSNumber *)startTime andEndTime:(NSNumber *)endTime&#123;</span><br><span class="line"></span><br><span class="line">    NSInteger _startTime = [startTime integerValue];</span><br><span class="line">    NSInteger _endTime = [endTime integerValue];</span><br><span class="line">    </span><br><span class="line">    NSInteger travelTime = (_endTime - _startTime)/60+1;</span><br><span class="line">    </span><br><span class="line">    return [NSString stringWithFormat:@&quot;%ld&quot;,travelTime];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- (NSString *)getDayHourMinWithTimeStamp:(NSNumber *)time&#123;</span><br><span class="line">    NSInteger _time = [time integerValue];</span><br><span class="line">    NSDate *date = [NSDate dateWithTimeIntervalSince1970:_time];</span><br><span class="line">    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];</span><br><span class="line">    [dateFormat setDateFormat:@&quot;YYYY-MM-dd HH:mm&quot;];</span><br><span class="line">    // 设置日期格式 2016-01-04 16:55:46</span><br><span class="line">    //NSLog(@&quot;date %@&quot;,date);</span><br><span class="line">    NSString *timeString = [dateFormat stringFromDate:date];</span><br><span class="line">    //NSLog(@&quot;time %@&quot;,timeString);</span><br><span class="line">    return timeString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%88%9B%E5%88%86%E4%BA%AB/" rel="tag"># 原创分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/14/iOS10%E5%AF%8C%E6%96%87%E6%9C%AC%E6%8E%A8%E9%80%81--UNNotificationExtension-%E5%9F%BA%E7%A1%80%E7%AF%87/" rel="prev" title="iOS10富文本推送--UNNotificationExtension--基础篇">
+      <i class="fa fa-chevron-left"></i> iOS10富文本推送--UNNotificationExtension--基础篇
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/14/MD%E8%AF%AD%E6%B3%95/" rel="next" title="MD语法">
+      MD语法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS%E6%97%B6%E9%97%B4%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">iOS时间工具类</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Centos7配置yum源我们安装完成CentOS系统，默认都是系统自带的yum源，因为你懂得原因会导致国内用户用yum安装软件的时候比较慢，为了提高效率，一般我们会配置国内的yum源。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos7配置yum源">
+<meta property="og:url" content="http://ilongge.site/2018/01/12/Centos7%E9%85%8D%E7%BD%AEyum%E6%BA%90/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="Centos7配置yum源我们安装完成CentOS系统，默认都是系统自带的yum源，因为你懂得原因会导致国内用户用yum安装软件的时候比较慢，为了提高效率，一般我们会配置国内的yum源。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-01-12T01:26:20.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:11.566Z">
+<meta property="article:author" content="ilongge">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://ilongge.site/2018/01/12/Centos7%E9%85%8D%E7%BD%AEyum%E6%BA%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Centos7配置yum源 | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2018/01/12/Centos7%E9%85%8D%E7%BD%AEyum%E6%BA%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Centos7配置yum源
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-12 09:26:20" itemprop="dateCreated datePublished" datetime="2018-01-12T09:26:20+08:00">2018-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:11" itemprop="dateModified" datetime="2021-10-15T10:52:11+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Centos7配置yum源"><a href="#Centos7配置yum源" class="headerlink" title="Centos7配置yum源"></a>Centos7配置yum源</h2><p>我们安装完成CentOS系统，默认都是系统自带的yum源，因为你懂得原因会导致国内用户用yum安装软件的时候比较慢，为了提高效率，一般我们会配置国内的yum源。</p>
+<span id="more"></span>
+
+<p>目前国内比较好的yum源有网易yum源、搜狐yum源等，现在介绍下怎么配置网易163yum源：</p>
+<h3 id="1、首先备份-etc-yum-repos-d-CentOS-Base-repo"><a href="#1、首先备份-etc-yum-repos-d-CentOS-Base-repo" class="headerlink" title="1、首先备份/etc/yum.repos.d/CentOS-Base.repo"></a>1、首先备份/etc/yum.repos.d/CentOS-Base.repo</h3><p>(不一定是这个名称 你可以看一下 具体叫啥)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/yum.repos.d/CentOS-Base.repo  /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2、根据CentOS不同版本选择下载对应的repo文件，放到-etc-yum-repos-d-目录"><a href="#2、根据CentOS不同版本选择下载对应的repo文件，放到-etc-yum-repos-d-目录" class="headerlink" title="2、根据CentOS不同版本选择下载对应的repo文件，放到/etc/yum.repos.d/ 目录"></a>2、根据CentOS不同版本选择下载对应的repo文件，放到/etc/yum.repos.d/ 目录</h3><h4 id="首先进入yum-repos-d目录"><a href="#首先进入yum-repos-d目录" class="headerlink" title="首先进入yum.repos.d目录"></a>首先进入yum.repos.d目录</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/yum.repos.d/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="CentOS-5-x"><a href="#CentOS-5-x" class="headerlink" title="CentOS 5.x"></a>CentOS 5.x</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.163.com/.help/CentOS5-Base-163.repo</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="CentOS-6-x"><a href="#CentOS-6-x" class="headerlink" title="CentOS 6.x"></a>CentOS 6.x</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.163.com/.help/CentOS6-Base-163.repo</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="CentOS-7-x"><a href="#CentOS-7-x" class="headerlink" title="CentOS 7.x"></a>CentOS 7.x</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.163.com/.help/CentOS7-Base-163.repo</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、最后，执行yum-makecache生成缓存"><a href="#3、最后，执行yum-makecache生成缓存" class="headerlink" title="3、最后，执行yum makecache生成缓存"></a>3、最后，执行yum makecache生成缓存</h3><h4 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum clean all</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成新缓存"><a href="#生成新缓存" class="headerlink" title="生成新缓存"></a>生成新缓存</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+<h3 id="OK-简单3步操作即可配置完成。"><a href="#OK-简单3步操作即可配置完成。" class="headerlink" title="OK, 简单3步操作即可配置完成。"></a>OK, 简单3步操作即可配置完成。</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/11/Windows--How_To_Change_IP_Address/" rel="prev" title="Windows--如何修改IP地址">
+      <i class="fa fa-chevron-left"></i> Windows--如何修改IP地址
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/02/03/Windows--UEFI_Boot_Installation_Win10/" rel="next" title="Windows--UEFI引导安装Win10">
+      Windows--UEFI引导安装Win10 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Centos7%E9%85%8D%E7%BD%AEyum%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">Centos7配置yum源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E9%A6%96%E5%85%88%E5%A4%87%E4%BB%BD-etc-yum-repos-d-CentOS-Base-repo"><span class="nav-number">1.1.</span> <span class="nav-text">1、首先备份&#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%A0%B9%E6%8D%AECentOS%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%80%89%E6%8B%A9%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94%E7%9A%84repo%E6%96%87%E4%BB%B6%EF%BC%8C%E6%94%BE%E5%88%B0-etc-yum-repos-d-%E7%9B%AE%E5%BD%95"><span class="nav-number">1.2.</span> <span class="nav-text">2、根据CentOS不同版本选择下载对应的repo文件，放到&#x2F;etc&#x2F;yum.repos.d&#x2F; 目录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E8%BF%9B%E5%85%A5yum-repos-d%E7%9B%AE%E5%BD%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">首先进入yum.repos.d目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CentOS-5-x"><span class="nav-number">1.2.2.</span> <span class="nav-text">CentOS 5.x</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CentOS-6-x"><span class="nav-number">1.2.3.</span> <span class="nav-text">CentOS 6.x</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CentOS-7-x"><span class="nav-number">1.2.4.</span> <span class="nav-text">CentOS 7.x</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E6%9C%80%E5%90%8E%EF%BC%8C%E6%89%A7%E8%A1%8Cyum-makecache%E7%94%9F%E6%88%90%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.</span> <span class="nav-text">3、最后，执行yum makecache生成缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.1.</span> <span class="nav-text">清除缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%96%B0%E7%BC%93%E5%AD%98"><span class="nav-number">1.3.2.</span> <span class="nav-text">生成新缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OK-%E7%AE%80%E5%8D%953%E6%AD%A5%E6%93%8D%E4%BD%9C%E5%8D%B3%E5%8F%AF%E9%85%8D%E7%BD%AE%E5%AE%8C%E6%88%90%E3%80%82"><span class="nav-number">1.4.</span> <span class="nav-text">OK, 简单3步操作即可配置完成。</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

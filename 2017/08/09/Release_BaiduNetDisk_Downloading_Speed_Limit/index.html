@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="众所周知的百度网盘为了迫使用户花钱，对用户的下载速度做出了限制。今天我就来分享一个破解限制的好办法，这个也是网上扒来的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解除百度网盘下载限速">
+<meta property="og:url" content="http://ilongge.site/2017/08/09/Release_BaiduNetDisk_Downloading_Speed_Limit/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="众所周知的百度网盘为了迫使用户花钱，对用户的下载速度做出了限制。今天我就来分享一个破解限制的好办法，这个也是网上扒来的。">
+<meta property="og:locale">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-88222a108071279b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-6e8702b54479388c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-aaab1c25ca4e9f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-3e70ff8b319a20f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-4dba49a5c0e21450.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-eb4d9ce68643c1b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-00af7cefab9ef166.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-f7664495cee555af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2017-08-09T03:00:00.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:10.616Z">
+<meta property="article:author" content="ilongge">
+<meta property="article:tag" content="分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1519926-88222a108071279b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="canonical" href="http://ilongge.site/2017/08/09/Release_BaiduNetDisk_Downloading_Speed_Limit/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>解除百度网盘下载限速 | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2017/08/09/Release_BaiduNetDisk_Downloading_Speed_Limit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          解除百度网盘下载限速
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-09 11:00:00" itemprop="dateCreated datePublished" datetime="2017-08-09T11:00:00+08:00">2017-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:10" itemprop="dateModified" datetime="2021-10-15T10:52:10+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>众所周知的百度网盘为了迫使用户花钱，对用户的下载速度做出了限制。今天我就来分享一个破解限制的好办法，这个也是网上扒来的。<br> <span id="more"></span></p>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>1、下载相关资料，也就是两个文件：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1nuPgpNN">http://pan.baidu.com/s/1nuPgpNN</a></p>
+<p>2、安装chrome浏览器</p>
+<p>3、安装下载的Aria2GUI 1.3.7.dmg</p>
+<p>4、安装chrome插件BaiduExporter.zip</p>
+<p>解压这个zip文件，然后打开chrome，</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-88222a108071279b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安装步骤1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-6e8702b54479388c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安装步骤2"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-aaab1c25ca4e9f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安装步骤3"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-3e70ff8b319a20f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安装步骤4"></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>1、打开刚刚安装的Aria2GUI客户端</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-4dba49a5c0e21450.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>2、在chrome里面打开百度云网页,插件安装成功网页上就会多出一个“导出下载”的按钮</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-eb4d9ce68643c1b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>3、找到你要下载的文件，并且勾选文件（这里最好先把文件存入自己的网盘目录）,然后点击ARIA2 RPC下载任务就会被客户端执行</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-00af7cefab9ef166.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>4、看一下速度</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-f7664495cee555af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="牛逼了"></p>
+<h4 id="ATTENSION！！！"><a href="#ATTENSION！！！" class="headerlink" title="ATTENSION！！！"></a>ATTENSION！！！</h4><p>本项目是MAC OS专用的，windows的目前不清楚<br>安装chrome插件之后,插件原文件就不能移动位置,更不能删除,否则插件就会失效.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E4%BA%AB/" rel="tag"># 分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/18/iOS10%E5%AF%8C%E6%96%87%E6%9C%AC%E6%8E%A8%E9%80%81--UIMutableUserNotificationAction/" rel="prev" title="iOS10富文本推送--UIMutableUserNotificationAction">
+      <i class="fa fa-chevron-left"></i> iOS10富文本推送--UIMutableUserNotificationAction
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/18/iOS%E6%97%A5%E5%BF%97%E6%9C%AC%E5%9C%B0%E5%8C%96--%E6%97%A5%E5%BF%97%E9%87%8D%E5%AE%9A%E5%90%91/" rel="next" title="iOS日志本地化--日志重定向">
+      iOS日志本地化--日志重定向 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ATTENSION%EF%BC%81%EF%BC%81%EF%BC%81"><span class="nav-number">3.</span> <span class="nav-text">ATTENSION！！！</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="HealthKit简单介绍目前很多App都会有访问健康数据的需求，那么我们就不得不使用HealthKit。HealthKit框架提供了一个结构，应用可以使用它来分享健康和健身数据。HealthKit管理从不同来源获得的数据，并根据用户的偏好设置，自动将不同来源的所有数据合并起来。应用还可以获取每个来源的原始数据，然后执行自己的数据合并。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS HealthKit简单介绍">
+<meta property="og:url" content="http://ilongge.site/2017/08/18/iOS--HealthKit/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="HealthKit简单介绍目前很多App都会有访问健康数据的需求，那么我们就不得不使用HealthKit。HealthKit框架提供了一个结构，应用可以使用它来分享健康和健身数据。HealthKit管理从不同来源获得的数据，并根据用户的偏好设置，自动将不同来源的所有数据合并起来。应用还可以获取每个来源的原始数据，然后执行自己的数据合并。">
+<meta property="og:locale">
+<meta property="og:image" content="http://img.blog.csdn.net/20170303223122622?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170303223928022?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170303225753734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170306144520400?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="article:published_time" content="2017-08-18T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:09.216Z">
+<meta property="article:author" content="ilongge">
+<meta property="article:tag" content="原创分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170303223122622?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+<link rel="canonical" href="http://ilongge.site/2017/08/18/iOS--HealthKit/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>iOS HealthKit简单介绍 | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2017/08/18/iOS--HealthKit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS HealthKit简单介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-18 18:00:00" itemprop="dateCreated datePublished" datetime="2017-08-18T18:00:00+08:00">2017-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:09" itemprop="dateModified" datetime="2021-10-15T10:52:09+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="HealthKit简单介绍"><a href="#HealthKit简单介绍" class="headerlink" title="HealthKit简单介绍"></a>HealthKit简单介绍</h2><p>目前很多App都会有访问健康数据的需求，那么我们就不得不使用HealthKit。HealthKit框架提供了一个结构，应用可以使用它来分享健康和健身数据。HealthKit管理从不同来源获得的数据，并根据用户的偏好设置，自动将不同来源的所有数据合并起来。应用还可以获取每个来源的原始数据，然后执行自己的数据合并。<br> <span id="more"></span></p>
+<h2 id="如何在项目中集成HealthKit"><a href="#如何在项目中集成HealthKit" class="headerlink" title="如何在项目中集成HealthKit"></a>如何在项目中集成HealthKit</h2><p>这一个部分我们将一步一步的在项目中集成HealthKit。</p>
+<h3 id="第一步添加HealthKit"><a href="#第一步添加HealthKit" class="headerlink" title="第一步添加HealthKit"></a>第一步添加HealthKit</h3><p>1、进入项目设置–&gt;Capabilities–&gt;HealthKit，然后如下图打开就可以了，如果下面几个选项前都打上了勾的话，那么就代表OK了，一般也不会出现X。<br><img src="http://img.blog.csdn.net/20170303223122622?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>2、如果上面的步骤完成了的话那么在工程目录下会多一个文件，这个文件以工程名命名，后缀名为entitlements，如下图：<br><img src="http://img.blog.csdn.net/20170303223928022?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>3、并且在Frameworks目录下会多一个HealthKit.framework文件：<br><img src="http://img.blog.csdn.net/20170303225753734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="项目中的使用"><a href="#项目中的使用" class="headerlink" title="项目中的使用"></a>项目中的使用</h3><p>首先要在需要访问健康数据的地方，使用import导入HealthKit头文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;HealthKit/HealthKit.h&gt;</span><br></pre></td></tr></table></figure>
+<p>然后写一个属性：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong) HKHealthStore *healthStore;</span><br></pre></td></tr></table></figure>
+<p>1、这一步为你的应用实例化一个 HKHealthStore 对象。每个应用只需要一个HealthKit存储实例。这个存储实例就是你和HealthKit数据库交互的主要接口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.healthStore = [[HKHealthStore alloc] init];</span><br></pre></td></tr></table></figure>
+<p>2、 调用 isHealthDataAvailable 方法来查看HealthKit在该设备上是否可用。HealthKit在iPad上不可用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ([HKHealthStore isHealthDataAvailable]) &#123;</span><br><span class="line">        NSLog(@&quot;HealthDataAvailable&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3、在项目中具体代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//创建想要获取的数据类型</span><br><span class="line">    HKObjectType *stepCpunt = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];//步数</span><br><span class="line">    HKObjectType *Height = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeight];//身高</span><br><span class="line">    HKObjectType *BodyMass = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];//体重</span><br><span class="line">    HKObjectType *DistanceWalkingRunning = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning];//步行+跑步距离</span><br><span class="line">    HKObjectType *DistanceCycling = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceCycling];//骑行距离</span><br><span class="line">    //一个集合，数据类型</span><br><span class="line">    NSSet *healthSet = [NSSet setWithObjects:stepCpunt,Height,BodyMass,DistanceWalkingRunning,DistanceCycling,nil];</span><br><span class="line">    //[self.healthStore requestAuthorizationToShareTypes:nil readTypes:healthSet completion:nil];</span><br><span class="line">    </span><br><span class="line">    //向系统的健康APP请求数据，并回调结果</span><br><span class="line">    [self.healthStore requestAuthorizationToShareTypes:nil readTypes:healthSet completion:^(BOOL success, NSError * _Nullable error) &#123;</span><br><span class="line">        if (success) &#123;</span><br><span class="line">            NSLog(@&quot;requestAuthorization success&quot;);</span><br><span class="line">            [self readHealthData:HKQuantityTypeIdentifierStepCount];</span><br><span class="line">            [self readHealthData:HKQuantityTypeIdentifierDistanceWalkingRunning];</span><br><span class="line">            [self readHealthData:HKQuantityTypeIdentifierDistanceCycling];</span><br><span class="line">            [self readHealthData:HKQuantityTypeIdentifierHeight];</span><br><span class="line">            [self readHealthData:HKQuantityTypeIdentifierBodyMass];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">        NSLog(@&quot;requestAuthorization error&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>具体的数据获的操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">//查询数据</span><br><span class="line">- (void)readHealthData:(NSString* )HKQuantityTypeIdentifierType&#123;</span><br><span class="line">    //查询采样信息</span><br><span class="line">    HKSampleType *sampleType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierType];</span><br><span class="line">    </span><br><span class="line">    //NSSortDescriptors用来告诉healthStore怎么样将结果排序。</span><br><span class="line">    NSSortDescriptor *start = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:NO];</span><br><span class="line">    NSSortDescriptor *end = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierEndDate ascending:NO];</span><br><span class="line">    /*</span><br><span class="line">     查询的基类是HKQuery，这是一个抽象类，能够实现每一种查询目标，这里我们需要查询的步数是一个</span><br><span class="line">     HKSample类所以对应的查询类就是HKSampleQuery。</span><br><span class="line">     下面的limit参数传1表示查询最近一条数据,查询多条数据只要设置limit的参数值就可以了</span><br><span class="line">     在这里我们需要定义block里面执行哪些语句</span><br><span class="line">     */</span><br><span class="line">    HKSampleQuery *sampleQuery = [[HKSampleQuery alloc] initWithSampleType:sampleType predicate:nil limit:2 sortDescriptors:@[start,end] resultsHandler:^(HKSampleQuery * _Nonnull query, NSArray&lt;__kindof HKSample *&gt; * _Nullable results, NSError * _Nullable error) &#123;</span><br><span class="line">        //打印查询结果</span><br><span class="line">        NSLog(@&quot;resultCount = %ld result = %@&quot;,results.count,results);</span><br><span class="line">        //把结果装换成字符串类型</span><br><span class="line">        if (results.count!=0) &#123;</span><br><span class="line">        HKQuantitySample *result = results[0];</span><br><span class="line">        HKQuantity *quantity = result.quantity;</span><br><span class="line">        NSString *stepStr = (NSString *)quantity;</span><br><span class="line">        [[NSOperationQueue mainQueue] addOperationWithBlock:^&#123;</span><br><span class="line">            //查询是在多线程中进行的，如果要对UI进行刷新，要回到主线程中</span><br><span class="line">            NSLog(@&quot;最新数据：%@&quot;,stepStr);</span><br><span class="line">        &#125;];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            NSLog(@&quot;没有健康数据&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    //执行查询</span><br><span class="line">    [self.healthStore executeQuery:sampleQuery];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><p>在这里</p>
+<p><img src="http://img.blog.csdn.net/20170306144520400?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%88%9B%E5%88%86%E4%BA%AB/" rel="tag"># 原创分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/08/18/iOS%E6%97%A5%E5%BF%97%E6%9C%AC%E5%9C%B0%E5%8C%96--%E6%97%A5%E5%BF%97%E9%87%8D%E5%AE%9A%E5%90%91/" rel="prev" title="iOS日志本地化--日志重定向">
+      <i class="fa fa-chevron-left"></i> iOS日志本地化--日志重定向
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/18/iOS--Get_iOS_Device_Model/" rel="next" title="获取iOS设备型号，目前所有iOS设备">
+      获取iOS设备型号，目前所有iOS设备 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HealthKit%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">HealthKit简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E9%9B%86%E6%88%90HealthKit"><span class="nav-number">2.</span> <span class="nav-text">如何在项目中集成HealthKit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E6%B7%BB%E5%8A%A0HealthKit"><span class="nav-number">2.1.</span> <span class="nav-text">第一步添加HealthKit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.</span> <span class="nav-text">项目中的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">2.3.</span> <span class="nav-text">运行结果</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

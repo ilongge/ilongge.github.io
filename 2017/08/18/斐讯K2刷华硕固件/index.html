@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ilongge.site","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写在前面斐讯K2是一款处于1200Mbps(300+867Mbps)无线速率段的双频802.11ac路由器，2.4G+5G双频并发，PA+LNA强强组合，智能管理轻松控制，斐讯K2完美诠释了“家再大，隔墙再多，WiFi信号不受阻隔”的上网体验。斐讯K2路由器可以在京东免费撸，很多朋友撸回家发现固件太垃圾，各种不好用，因此想把斐讯K2刷成华硕固件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="斐讯K2刷华硕固件">
+<meta property="og:url" content="http://ilongge.site/2017/08/18/%E6%96%90%E8%AE%AFK2%E5%88%B7%E5%8D%8E%E7%A1%95%E5%9B%BA%E4%BB%B6/index.html">
+<meta property="og:site_name" content="卟败灬筱龙">
+<meta property="og:description" content="写在前面斐讯K2是一款处于1200Mbps(300+867Mbps)无线速率段的双频802.11ac路由器，2.4G+5G双频并发，PA+LNA强强组合，智能管理轻松控制，斐讯K2完美诠释了“家再大，隔墙再多，WiFi信号不受阻隔”的上网体验。斐讯K2路由器可以在京东免费撸，很多朋友撸回家发现固件太垃圾，各种不好用，因此想把斐讯K2刷成华硕固件。">
+<meta property="og:locale">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-adcaac92e341f4d5?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-c8700e58b3691f38?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://img.blog.csdn.net/20170529234357673?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-f5ca30c7d63b9711.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-428f46a0f8cc1247.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-57ad3cd930ff5ed5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-7ccb2dbe0e4e54f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-fb631c4b473eebaf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-c15336ce2d618569?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-6ab7f4e6b5d591f6?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-1c39571d88b56311?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-f7133a856faec4c6?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-d7b6ef7fdb6ccbaa?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-198ca9095384795a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-4e3e8fc7625106d8?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-e3ceda4f07d50ffe?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-98e30139ff355132?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-9a6a9e5a20785f19?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-b17e987be3d80386?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1519926-47c4cd81cb6ea35e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2017-08-18T10:00:39.000Z">
+<meta property="article:modified_time" content="2021-10-15T02:52:11.266Z">
+<meta property="article:author" content="ilongge">
+<meta property="article:tag" content="原创分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1519926-adcaac92e341f4d5?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="canonical" href="http://ilongge.site/2017/08/18/%E6%96%90%E8%AE%AFK2%E5%88%B7%E5%8D%8E%E7%A1%95%E5%9B%BA%E4%BB%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>斐讯K2刷华硕固件 | 卟败灬筱龙</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">卟败灬筱龙</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎大家</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://ilongge.site/2017/08/18/%E6%96%90%E8%AE%AFK2%E5%88%B7%E5%8D%8E%E7%A1%95%E5%9B%BA%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ilongge">
+      <meta itemprop="description" content="这个人很懒什么也没留下">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卟败灬筱龙">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          斐讯K2刷华硕固件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-18 18:00:39" itemprop="dateCreated datePublished" datetime="2017-08-18T18:00:39+08:00">2017-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-10-15 10:52:11" itemprop="dateModified" datetime="2021-10-15T10:52:11+08:00">2021-10-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a><strong>写在前面</strong></h3><p>斐讯K2是一款处于1200Mbps(300+867Mbps)无线速率段的双频802.11ac路由器，2.4G+5G双频并发，PA+LNA强强组合，智能管理轻松控制，斐讯K2完美诠释了“家再大，隔墙再多，WiFi信号不受阻隔”的上网体验。斐讯K2路由器可以在京东免费撸，很多朋友撸回家发现固件太垃圾，各种不好用，因此想把斐讯K2刷成华硕固件。 </p>
+  <span id="more"></span>
+<p> <a target="_blank" rel="noopener" href="http://detail.zol.com.cn/wireless_router/index1140233.shtml">中关村斐讯K2</a>  </p>
+<h4 id="重要说明"><a href="#重要说明" class="headerlink" title="重要说明"></a><strong>重要说明</strong></h4><p> 据说，这种方法支持斐讯K2的固件版本为：<br> 22.3.15.128<br> 22.3.15.232<br> 22.3.17.148<br> 22.4.2.8<br> 22.4.2.9<br> 如果目前你的斐讯K2路由器的固件版本高于或者低于这几个版本，可以进行升级或者降级操作，然后按照。下面我会提供相关文件的下载地址，方便大家下载后进行升级和降级操作。<br>点击 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1gfssXUz">百度网盘</a><br>或者复制链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1gfssXUz">https://pan.baidu.com/s/1gfssXUz</a> 密码: qdke </p>
+<h4 id="第一步：——自带固件降级—–"><a href="#第一步：——自带固件降级—–" class="headerlink" title="第一步：——自带固件降级—–"></a><strong>第一步：——自带固件降级—–</strong></h4><p>降级分为两个版本，一个是老版本22.5.9，另外一个是22.5.11，因为在.11版本降级会出现提示，非法固件而不允许刷机，那么我们就是用另外一种方法来进行刷机</p>
+<h5 id="首先22-5-9版本降级"><a href="#首先22-5-9版本降级" class="headerlink" title="首先22.5.9版本降级"></a><strong>首先22.5.9版本降级</strong></h5><h6 id="第1步"><a href="#第1步" class="headerlink" title="第1步"></a><strong>第1步</strong></h6><p>a、进入系统设置，找到手动升级，选择k2_163_v11_breed.bin ，然后升级</p>
+<h6 id="第2步"><a href="#第2步" class="headerlink" title="第2步"></a><strong>第2步</strong></h6><p>a、升级完成后，断开路由器电源。<br> b、按住复位键，插上电源，等待7秒钟后松开复位键。<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-adcaac92e341f4d5?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "> </p>
+<h6 id="第3步"><a href="#第3步" class="headerlink" title="第3步"></a><strong>第3步</strong></h6><p> a、进入breed  web设置页面<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-c8700e58b3691f38?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "> </p>
+<h5 id="22-5-11版本降级"><a href="#22-5-11版本降级" class="headerlink" title="22.5.11版本降级"></a><strong>22.5.11版本降级</strong></h5><h6 id="第1步-1"><a href="#第1步-1" class="headerlink" title="第1步"></a>第1步</h6><p>1、安装Firefox浏览器。</p>
+<p>2、用网线连接电脑和路由器的Lan口（WAN口无所谓，联不联网无所谓），K1、K2默认登录密码修改为admin。</p>
+<h6 id="第2步、开启telnet工作"><a href="#第2步、开启telnet工作" class="headerlink" title="第2步、开启telnet工作"></a>第2步、开启telnet工作</h6><p>1、打开Firefox浏览器登陆斐讯路由器，选择右上角的“定时重启路由器”，如图。<br><img src="http://img.blog.csdn.net/20170529234357673?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWnVvV2VpWGlhb0R1WnVvWnVv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
+<p>2、点击指定重启时间，将鼠标箭头放到05上，右键选择“查看元素”。注意一定要放在05上；</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-f5ca30c7d63b9711.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="201701121108234370.png"></p>
+<p>3、在查看器中将鼠标移到”05”上（找不到05的话刷新一下网页），点击鼠标右键，选择“编程HTML”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-428f46a0f8cc1247.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="201701121108442103.png"><br>4、将”05”改成”01:00 | telnetd -l /bin/login.sh”（复制粘贴即可），然后鼠标移动到黑框之外的空白处点击鼠标左键，就可以完成编辑了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-57ad3cd930ff5ed5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="201701121109202138.png"><br>5、在定时重启路由器页面上选择05之后（注意现在回变成1：00…..），点击“保存”。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-7ccb2dbe0e4e54f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="201701121109271335.png"><br>那么现在就完成了开启K2路由器telnet服务的工作。<br>6、下载目录内breed Web助手（3.4版本）–&gt;关闭防火墙，退出杀毒软件–&gt;找到这个文件“路由器刷breed Web助手通用版v3.0”–&gt;右键以管理员身份运行</p>
+<p>7、如图刷机方案选择：”通用方案[需要开启路由器telnet或ssh]”，然后点击开始刷机；</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1519926-fb631c4b473eebaf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="201701121109327806.png"></p>
+<p>8、完成后这样就完成了斐讯路由器刷入不死Breed。</p>
+<h4 id="第二步："><a href="#第二步：" class="headerlink" title="第二步："></a><strong>第二步：</strong></h4><p> a、进入breed界面<br> b、在菜单固件更新中，选择文件哪一行，选择SW_K2_703004657_V22.4.2.8.bin  固件<br> c、等待上传完成<br>  <img src="http://upload-images.jianshu.io/upload_images/1519926-c15336ce2d618569?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "><br> <img src="http://upload-images.jianshu.io/upload_images/1519926-6ab7f4e6b5d591f6?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "><br> e、请等待升级完成，自动重启后。然后按住复位键7秒，等待重启后。 到此你的路由器固件成功降级到了22.4.2.8<br>  <img src="http://upload-images.jianshu.io/upload_images/1519926-1c39571d88b56311?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "><br> f、注意右下角的固件版本号<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-f7133a856faec4c6?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<h4 id="——刷入华硕固件—–"><a href="#——刷入华硕固件—–" class="headerlink" title="——刷入华硕固件—–"></a><strong>——刷入华硕固件—–</strong></h4><h6 id="第1步–刷入breed和ssh"><a href="#第1步–刷入breed和ssh" class="headerlink" title="第1步–刷入breed和ssh"></a><strong>第1步–刷入breed和ssh</strong></h6><p> a、点击“高级设置”——&gt;“备份恢复”——&gt;“浏览”找到刚才下载的：tianbaoha_breed_ssh.dat文件——&gt;“恢复备份”。<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-d7b6ef7fdb6ccbaa?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "><br> b、路由器会自动重启，等待重启完成<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-198ca9095384795a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="给斐讯K2刷入breed和ssh"><br><img src="http://upload-images.jianshu.io/upload_images/1519926-4e3e8fc7625106d8?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "><br>c、验证 斐讯K2重启完成后，重新在浏览器中输入p.to或者192.168.2.1，打开登录界面，<strong>管理密码用：tianbaoha</strong> 。如果可以登录到设置界面，说明breed和ssh已经刷入成功。</p>
+<h6 id="第2步-1"><a href="#第2步-1" class="headerlink" title="第2步"></a><strong>第2步</strong></h6><p>a、<strong>管理密码用：tianbaoha</strong> 登录到K2的设置界面后，点击“高级设置”——&gt;“系统设置”——&gt;“手动升级”——&gt;点击 下载备份EEPROM，如下图所示。<br><img src="http://upload-images.jianshu.io/upload_images/1519926-e3ceda4f07d50ffe?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<h6 id="第3步–刷写华硕固件"><a href="#第3步–刷写华硕固件" class="headerlink" title="第3步–刷写华硕固件"></a><strong>第3步–刷写华硕固件</strong></h6><p>**登录地址：192.168.123.1 **<br>**管理账号：admin/admin **<br>默认wifi密码：1234567890<br> a、点击“高级设置”——&gt;“系统设置”——&gt;“手动升级”——&gt;点击“浏览”，找到刚才下载的华硕固件:RT-AC54U-GPIO-1-PSG1208-64M_3.4.3.9-099.trx<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-98e30139ff355132?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "><br> b、点击“升级”。<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-9a6a9e5a20785f19?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<h6 id="第4步"><a href="#第4步" class="headerlink" title="第4步"></a><strong>第4步</strong></h6><p> a、等待路由器重启。<br> b、在浏览器中输入：<strong>192.168.123.1 <strong>打开登录界面——&gt;用户名和密码用：</strong>admin/admin</strong>，登录到界面了<br> <img src="http://upload-images.jianshu.io/upload_images/1519926-b17e987be3d80386?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "> <img src="http://upload-images.jianshu.io/upload_images/1519926-47c4cd81cb6ea35e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" ">  </p>
+<h5 id="结束"><a href="#结束" class="headerlink" title="结束"></a><strong>结束</strong></h5>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%88%9B%E5%88%86%E4%BA%AB/" rel="tag"># 原创分享</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/08/18/iOS%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9B%B8%E6%9C%BA%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="iOS自定义相机的实现">
+      <i class="fa fa-chevron-left"></i> iOS自定义相机的实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/19/Windows--Make_PE_Boot_USB_Disk/" rel="next" title="Windows电脑U盘启动盘制作">
+      Windows电脑U盘启动盘制作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">重要说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E2%80%94%E2%80%94%E8%87%AA%E5%B8%A6%E5%9B%BA%E4%BB%B6%E9%99%8D%E7%BA%A7%E2%80%94%E2%80%93"><span class="nav-number">1.2.</span> <span class="nav-text">第一步：——自带固件降级—–</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A6%96%E5%85%8822-5-9%E7%89%88%E6%9C%AC%E9%99%8D%E7%BA%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">首先22.5.9版本降级</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC1%E6%AD%A5"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">第1步</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC2%E6%AD%A5"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">第2步</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC3%E6%AD%A5"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">第3步</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#22-5-11%E7%89%88%E6%9C%AC%E9%99%8D%E7%BA%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">22.5.11版本降级</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC1%E6%AD%A5-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">第1步</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC2%E6%AD%A5%E3%80%81%E5%BC%80%E5%90%AFtelnet%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">第2步、开启telnet工作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">第二步：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%94%E2%80%94%E5%88%B7%E5%85%A5%E5%8D%8E%E7%A1%95%E5%9B%BA%E4%BB%B6%E2%80%94%E2%80%93"><span class="nav-number">1.4.</span> <span class="nav-text">——刷入华硕固件—–</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC1%E6%AD%A5%E2%80%93%E5%88%B7%E5%85%A5breed%E5%92%8Cssh"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">第1步–刷入breed和ssh</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC2%E6%AD%A5-1"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">第2步</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC3%E6%AD%A5%E2%80%93%E5%88%B7%E5%86%99%E5%8D%8E%E7%A1%95%E5%9B%BA%E4%BB%B6"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">第3步–刷写华硕固件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AC%AC4%E6%AD%A5"><span class="nav-number">1.4.0.4.</span> <span class="nav-text">第4步</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F"><span class="nav-number">1.4.1.</span> <span class="nav-text">结束</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ilongge</p>
+  <div class="site-description" itemprop="description">这个人很懒什么也没留下</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ilongge</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

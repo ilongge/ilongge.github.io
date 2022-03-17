@@ -1,0 +1,6 @@
+framework module WNPlayer-ilongge {
+  umbrella header "WNPlayer-ilongge.h"
+
+  export *
+  module * { export * }
+}

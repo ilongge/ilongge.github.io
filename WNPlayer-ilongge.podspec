@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.frameworks = ["AVFoundation", "AudioToolbox", "VideoToolbox", "Accelerate", "OpenGLES", "QuartzCore"]
   s.libraries = ["bz2", "iconv", "z"]
   s.requires_arc = true
-  s.source = { :path => '.' }
+  s.source = { :path => 'https://ilongge.site/WNPlayer-ilongge-0.0.2.zip' }
 
   s.ios.deployment_target    = '9.0'
-  s.ios.vendored_framework   = 'ios/WNPlayer-ilongge.framework'
+  s.ios.vendored_framework   = 'WNPlayer-ilongge.framework'
 end
